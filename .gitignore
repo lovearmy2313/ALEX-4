@@ -1,0 +1,11 @@
+.env
+.env.*
+!.env.example
+.alex_flask_secret
+alex_memory.db
+alex_memory.db-*
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.DS_Store

@@ -1,0 +1,39 @@
+ALEX PHONE CALL - setup (optional)
+===================================
+What it does: you call a phone number, enter your PIN, then SPEAK a task. ALEX does it on your
+laptop (play a song, open apps, search, type...) and answers by voice. ALEX can also call YOU:
+say "mujhe call karo" inside ALEX.
+
+You need (be aware of the costs):
+ 1. A Twilio account (twilio.com) and a Twilio phone number with Voice. Trial accounts only call
+    numbers you have verified. Indian numbers need documents; a US number works but your call
+    to it is an international call, which costs money. Twilio charges per minute.
+ 2. Your laptop ON, ALEX running (app.py), and a tunnel running so Twilio can reach your PC:
+       cloudflared tunnel --url http://127.0.0.1:5000        (free, address changes every run)
+    or  ngrok http 5000                                      (a free fixed domain is available)
+    The tunnel prints a https address. Put it in .env as ALEX_PUBLIC_URL (no slash at the end).
+
+.env settings (ALL are required, otherwise the feature stays OFF):
+    ALEX_PHONE_ENABLED=1
+    TWILIO_AUTH_TOKEN=...            (Twilio console)
+    ALEX_PHONE_ALLOWED=+91xxxxxxxxxx (your own number(s), comma separated)
+    ALEX_PHONE_PIN=1234              (4 or more digits)
+    ALEX_PUBLIC_URL=https://xxxx.trycloudflare.com
+  For "mujhe call karo" also add: TWILIO_ACCOUNT_SID=...  and  TWILIO_NUMBER=+1...
+
+Twilio console -> Phone Numbers -> your number -> Voice -> "A call comes in":
+    Webhook, POST,  https://xxxx.trycloudflare.com/phone/incoming
+(If your tunnel address changes, update both .env and this webhook.)
+
+Safety built in:
+ - Only /phone/incoming, /phone/pin and /phone/listen are reachable through the tunnel.
+   Everything else on ALEX returns "not found" for outside visitors.
+ - Every request must carry Twilio's real signature. Strangers cannot call the webhook.
+ - Only numbers in ALEX_PHONE_ALLOWED are accepted, AND you must type the PIN (caller ID can be
+   faked, so the number alone is not trusted). 3 wrong PINs end the call.
+ - Risky tasks (shutdown, restart, delete...) ask "haan?" first. Calls end after 10 minutes.
+ - Keep the tunnel OFF when you are not using this.
+
+Limits: each answer takes about 2-4 seconds. Twilio's speech recognition is good for Hindi and
+English but not perfect with noise. The phone voice is a Twilio voice (Polly Aditi), not ALEX's
+app voice. Laptop tasks need laptop control enabled (see README.txt).

@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#020811">
+<title>ALEX AI Assistant</title>
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.webmanifest">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+</head>
+<body>
+<main class="alex-interface">
+<header class="top-header">
+  <div class="brand"><div class="brand-icon">A</div><span>ALEX AI</span></div>
+  <div class="header-status"><span class="status-dot"></span><span id="status">CONNECTING</span><span class="clock" id="clock">00:00:00</span></div>
+</header>
+
+<section class="hologram-container" aria-label="ALEX hologram">
+  <div class="energy-orb">
+    <div class="orb-glow"></div>
+    <div class="orb-core"><div class="core-purple"></div><div class="core-blue"></div></div>
+    <div class="orb-shell shell-one"></div><div class="orb-shell shell-two"></div><div class="orb-shell shell-three"></div>
+    <div class="orb-orbit orbit-one"></div><div class="orb-orbit orbit-two"></div>
+    <div class="orb-stars">
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span><span></span>
+    </div>
+    <!-- Original robot face structure preserved -->
+    <div class="robot-face">
+      <div class="robot-forehead"></div>
+      <div class="robot-eye left-eye"></div><div class="robot-eye right-eye"></div>
+      <div class="robot-nose"></div><div class="robot-mouth"></div>
+      <div class="robot-cheek left-cheek"></div><div class="robot-cheek right-cheek"></div>
+    </div>
+  </div>
+  <div class="hologram-label">ALEX</div>
+  <div class="avatar-status" id="avatarStatus">SYSTEM INITIALIZING</div>
+  <div class="emotion-status">PERSONAL AI ASSISTANT</div>
+  <button class="show-avatar-hint" id="showAvatarBtn" type="button">SHOW AVATAR</button>
+</section>
+
+<div class="connection-system"><div class="wire wire-one"><span></span></div><div class="wire wire-two"><span></span></div><div class="wire wire-three"><span></span></div></div>
+
+<section class="chat-panel">
+  <div class="chat-header"><span>ALEX COMMUNICATION</span><span class="chat-header-small">AI SYSTEM ONLINE</span></div>
+  <div class="chat-messages" id="chatMessages" aria-live="polite"></div>
+  <div class="chat-voice-section">
+    <div class="voice-top"><span class="voice-title">VOICE SYSTEM</span><div class="voice-controls">
+      <button class="voice-choice" id="voiceFemale" type="button">FEMALE</button>
+      <button class="voice-choice active" id="voiceMale" type="button">MALE</button>
+    </div></div>
+    <div class="voice-center">
+      <div class="voice-visualizer"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+      <button class="microphone-button" id="micBtn" type="button" title="Start or stop microphone" aria-label="Microphone">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"></rect><path d="M5 10v2a7 7 0 0 0 14 0v-2"></path><path d="M12 19v3M8 22h8"></path></svg>
+      </button>
+      <div class="voice-info"><div id="voiceStatus">MALE VOICE</div><small id="listenStatus">MIC READY</small></div>
+    </div>
+    <div class="voice-bottom"><div id="cameraStatus">CAMERA OFF</div><div class="extra-controls">
+      <button id="cameraBtn" type="button">CAMERA ON</button><button id="cameraStopBtn" type="button">CAMERA OFF</button>
+      <button id="musicToggle" type="button">MUSIC</button>
+    </div></div>
+    <video id="cameraVideo" autoplay muted playsinline></video>
+  </div>
+  <div class="chat-input-area"><input type="text" id="chatInput" placeholder="Ask ALEX anything..." autocomplete="off"><button id="sendBtn" type="button" title="Send message">➤</button></div>
+  <footer class="chat-footer"><span><span class="status-dot"></span> SECURE LOCAL CONNECTION</span><span>ALEX AI</span></footer>
+</section>
+</main>
+
+<!-- Avatar is hidden until requested by button or voice command -->
+<section class="avatar-screen" id="avatarScreen" aria-hidden="true">
+  <div class="avatar-topbar"><span class="avatar-brand">ALEX // AVATAR</span><span class="avatar-mode-label" id="avatarModeLabel">NORMAL MODE</span><div class="avatar-top-actions"><button id="spinAvatarBtn" type="button" aria-pressed="false">↻ 360° VIEW</button><button id="hideAvatarBtn" type="button">✕ HIDE AVATAR</button></div></div>
+  <div class="avatar-stage">
+    <div class="avatar-aura"></div>
+    <div class="avatar-orbit avatar-orbit-a"></div><div class="avatar-orbit avatar-orbit-b"></div>
+    <div class="avatar-turntable" id="avatarTurntable"><div class="full-robot" id="fullRobot" aria-label="ALEX robot avatar">
+      <div class="robot-halo"></div>
+      <div class="robot-backpack"><i></i><b></b><em></em></div>
+      <div class="robot-head"><div class="head-crest"></div><div class="head-side left"></div><div class="head-side right"></div>
+        <div class="face-visor"><i class="eye eye-left"></i><i class="eye eye-right"></i><i class="nose-line"></i><i class="mouth-line"></i></div>
+        <div class="jaw"></div>
+      </div>
+      <div class="robot-neck"></div>
+      <div class="robot-torso"><div class="chest-core"><span>A</span></div><div class="chest-armor left"></div><div class="chest-armor right"></div><div class="chest-line"></div><div class="chest-line second"></div></div>
+      <div class="robot-shoulder left"><i class="shoulder-fin"></i></div><div class="robot-shoulder right"><i class="shoulder-fin"></i></div>
+      <div class="robot-arm left"><i></i><b></b><em class="arm-plate"></em><span class="wrist-blade"></span></div><div class="robot-arm right"><i></i><b></b><em class="arm-plate"></em><span class="wrist-blade"></span></div>
+      <div class="robot-waist"><i class="waist-light"></i></div><div class="robot-hip"><i class="hip-plate left"></i><i class="hip-plate right"></i></div>
+      <div class="robot-leg left"><i></i><b class="shin-armor"></b><span class="robot-foot"></span></div><div class="robot-leg right"><i></i><b class="shin-armor"></b><span class="robot-foot"></span></div>
+    </div></div>
+    <div class="avatar-scanline"></div>
+  </div>
+  <aside class="avatar-bottom">
+    <div class="mode-heading">AVATAR MODES</div>
+    <div class="mode-buttons">
+      <button class="mode-button active" data-mode="normal">NORMAL</button>
+      <button class="mode-button" data-mode="danger">DANGER</button>
+      <button class="mode-button" data-mode="fighting">FIGHTING</button>
+      <button class="mode-button" data-mode="virus">VIRUS</button>
+      <button class="mode-button" data-mode="scanning">SCANNING</button>
+      <button class="mode-button" data-mode="power">POWER</button>
+    </div>
+    <div class="mode-description" id="modeDescription">ALEX is standing by.</div>
+    <div class="avatar-voice-panel">
+      <button class="avatar-mic-button" id="avatarMicBtn" type="button" aria-label="Start voice commands" title="Speak to ALEX">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"></rect><path d="M5 10v2a7 7 0 0 0 14 0v-2M12 19v3M8 22h8"></path></svg>
+      </button>
+      <div class="avatar-mic-copy"><strong id="avatarMicStatus">MIC READY</strong><small>Tap and speak commands to ALEX</small></div>
+    </div>
+  </aside>
+</section>
+<script>
+/* ALEX watchdog: records script errors so a failed start is visible on screen */
+window.__alexErrors=[];
+window.addEventListener("error",function(e){window.__alexErrors.push(((e.filename||"").split("/").pop()||"page")+" line "+e.lineno+": "+e.message)});
+</script>
+<script>
+/* cache-busting: the browser can never use an old copy of script.js */
+document.write('<script src="script.js?v='+Date.now()+'"><\/script>');
+</script>
+<script>
+setTimeout(function(){
+  if(window.ALEX)return;
+  var d=document.createElement("div");
+  d.style.cssText="position:fixed;left:0;right:0;bottom:0;z-index:99999;background:#7a0010;color:#fff;font:14px/1.5 monospace;padding:12px 16px";
+  d.textContent="ALEX could not start. "+(window.__alexErrors.slice(0,2).join(" | ")||"script.js was not found. Start ALEX with START_ALEX.bat from the ALEX folder.");
+  document.body.appendChild(d);
+},3000);
+</script>
+</body>
+</html>

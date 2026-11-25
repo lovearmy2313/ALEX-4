@@ -1,0 +1,27 @@
+services:
+  - type: web
+    name: alex-ai-backend
+    runtime: python
+    plan: starter
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --workers 1 --threads 8 --timeout 120
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.11
+      - key: ALEX_DATA_DIR
+        value: /var/data
+      - key: ALEX_COOKIE_SECURE
+        value: "true"
+      - key: ALEX_COMPUTER_CONTROL
+        value: "false"
+      - key: GROQ_API_KEY
+        sync: false
+      - key: ALEX_PASSWORD
+        sync: false
+      - key: FLASK_SECRET_KEY
+        generateValue: true
+    disk:
+      name: alex-persistent-data
+      mountPath: /var/data
+      sizeGB: 1
